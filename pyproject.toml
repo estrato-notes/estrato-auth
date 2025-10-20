@@ -1,0 +1,15 @@
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+# Seleciona as regras que o linter deve verificar.
+# "F": Pyflakes (erros de lógica)
+# "E", "W": pycodestyle (erros e avisos de estilo)
+# "I": isort (organização de imports)
+# "B": bugbear (encontra prováveis bugs e más práticas de design)
+# "C90": mccabe (alerta sobre complexidade ciclomática alta)
+select = ["F", "E", "W", "I", "B", "C90"]
+
+# Ignora a regra de "linha muito longa", que já é controlada pelo "line-length".
+ignore = ["E501"]
