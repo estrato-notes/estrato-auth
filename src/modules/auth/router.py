@@ -21,6 +21,7 @@ def get_current_user(
     db: Annotated[Session, Depends(get_db)],
     creds: Annotated[HTTPAuthorizationCredentials, Depends(oauth2_scheme)],
 ) -> User:
+    """Busca e retorna o usuário ativo no momento pelo ID"""
     token = creds.credentials
     token_data = JWTUtils.decode_access_token(token)
     user_id = uuid.UUID(token_data.user_id)
@@ -34,6 +35,7 @@ def get_current_user(
     summary="Cria um novo usuário e retorna o token",
 )
 def register(user_data: UserCreate, db: Annotated[Session, Depends(get_db)]) -> Token:
+    """Realiza o cadastro de um usuário"""
     return auth_service.register_user(db, user_data)
 
 
@@ -44,6 +46,7 @@ def register(user_data: UserCreate, db: Annotated[Session, Depends(get_db)]) -> 
     summary="Autentica o usuário e retorna o token",
 )
 def login(user_login_data: UserLogin, db: Annotated[Session, Depends(get_db)]) -> Token:
+    """Realiza a autenticação de um usuário"""
     return auth_service.login_user(db, user_login_data)
 
 
@@ -56,6 +59,7 @@ def login(user_login_data: UserLogin, db: Annotated[Session, Depends(get_db)]) -
 def get_logged_user_info(
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> UserResponse:
+    """Retorna os dados do usuário logado no momento"""
     return current_user
 
 
@@ -70,6 +74,7 @@ def update_logged_user_data(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ) -> UserResponse:
+    """Atualiza os dados do usuário logado"""
     return auth_service.update_user(db, current_user.id, user_update_data)
 
 
@@ -82,5 +87,6 @@ def delete_logged_user_account(
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)],
 ):
+    """Deleta a conta do usuário logado no momento"""
     auth_service.delete_user(db, current_user.id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

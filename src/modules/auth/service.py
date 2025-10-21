@@ -15,6 +15,7 @@ from .schemas import Token, UserCreate, UserLogin, UserUpdate
 class AuthService:
     @staticmethod
     def register_user(db: Session, user_data: UserCreate) -> Token:
+        """Realiza o cadastro de um novo usuário"""
         try:
             new_user = user_repository.create_user(db, user_data)
             access_token = JWTUtils.create_access_token(data={"sub": str(new_user.id)})
@@ -28,6 +29,7 @@ class AuthService:
 
     @staticmethod
     def login_user(db: Session, user_login_data: UserLogin) -> Token:
+        """Faz a autenticação de um usuário e retorna o token"""
         user = user_repository.get_user_by_email(db, user_login_data.email)
 
         if not user or not verify_hash(user_login_data.password, user.hashed_password):
@@ -42,6 +44,7 @@ class AuthService:
 
     @staticmethod
     def get_user_by_id(db: Session, user_id: uuid.UUID) -> User:
+        """Busca e retorna o usuário referente ao ID passado"""
         user = user_repository.get_user_by_id(db, user_id)
         if not user:
             raise HTTPException(
@@ -54,6 +57,7 @@ class AuthService:
     def update_user(
         db: Session, user_id: uuid.UUID, user_update_data: UserUpdate
     ) -> User:
+        """Atualiza os dados de um usuário existente"""
         user_to_update = AuthService.get_user_by_id(db, user_id)
 
         try:
@@ -66,5 +70,6 @@ class AuthService:
 
     @staticmethod
     def delete_user(db: Session, user_id: uuid.UUID):
+        """Deleta um usuário do banco"""
         user_to_delete = AuthService.get_user_by_id(db, user_id)
         user_repository.delete_user(db, user_to_delete)
