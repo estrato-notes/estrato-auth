@@ -9,6 +9,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - db_auth_data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
     ports:
       - "5433:5432"
     healthcheck:
@@ -32,6 +33,20 @@ services:
     command: >
       sh -c "alembic upgrade head &&
              uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload"
+  tests:
+    build: .
+    container_name: estrato_auth_tests
+    command: pytest
+    volumes:
+      - .:/app
+    depends_on:
+      db_auth:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=estrato_auth_db_test
+      - PYTHONPATH=/app
 
 volumes:
   db_auth_data: {}
