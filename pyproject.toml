@@ -2,6 +2,8 @@
 line-length = 88
 target-version = "py312"
 
+exclude = ["migrations/"]
+
 [tool.ruff.lint]
 # Seleciona as regras que o linter deve verificar.
 # "F": Pyflakes (erros de lógica)
