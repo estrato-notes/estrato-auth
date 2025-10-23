@@ -24,7 +24,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8001:8000" 
+      - "8001:8000"
     depends_on:
       db_auth:
         condition: service_healthy
@@ -42,11 +42,14 @@ services:
     depends_on:
       db_auth:
         condition: service_healthy
-    env_file:
-      - .env
     environment:
       - POSTGRES_DB=estrato_auth_db_test
       - PYTHONPATH=/app
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE_MINUTES=${ACCESS_TOKEN_EXPIRE_MINUTES}
 
 volumes:
   db_auth_data: {}

@@ -1,0 +1,40 @@
+name: Python CI Auth
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+    
+jobs:
+    build_and_test:
+        runs-on: ubuntu-latest
+
+        env:
+            POSTGRES_USER: testauthuser
+            POSTGRES_PASSWORD: testauthpass
+            POSTGRES_DB: estrato_auth_db_ci
+            SECRET_KEY: testsecretkey123auth
+            ALGORITHM: HS256
+            ACCESS_TOKEN_EXPIRE_MINUTES: 15
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            
+            - name: Set Up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12'
+            
+            - name: Install Dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+            
+            - name: Lint with Ruff
+              run: |
+                ruff check .
+            
+            - name: Run tests with docker compose
+              run: docker compose -f docker-compose.yml run --rm tests
