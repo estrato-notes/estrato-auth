@@ -1,3 +1,5 @@
+"""Arquivo com as configurações do token JWT"""
+
 from datetime import datetime, timedelta, timezone
 
 from fastapi import HTTPException, status
@@ -9,6 +11,8 @@ from .config import settings
 
 
 class JWTUtils:
+    """Agrupa os métodos relacionados a criação e decodificação do token"""
+
     @staticmethod
     def create_access_token(data: dict) -> str:
         """Gera um token JWT e o retorna"""
@@ -21,6 +25,7 @@ class JWTUtils:
 
     @staticmethod
     def decode_access_token(token: str) -> TokenData:
+        """Faz a decodificação do token JWT e retorna o id do usuário"""
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Não foi possível validar as credenciais",
@@ -36,7 +41,7 @@ class JWTUtils:
 
             if user_id:
                 return TokenData(user_id=user_id)
-            else:
-                raise credentials_exception
+
+            raise credentials_exception
         except JWTError as err:
             raise credentials_exception from err

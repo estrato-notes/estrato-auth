@@ -1,17 +1,30 @@
-[tool.ruff]
-line-length = 88
-target-version = "py312"
+[tool.pylint.main]
+# Define a nota mínima para o CI passar
+fail-under = 8.0
 
-exclude = ["migrations/"]
+# Ignora a pasta de migrações
+ignore = ["migrations"]
 
-[tool.ruff.lint]
-# Seleciona as regras que o linter deve verificar.
-# "F": Pyflakes (erros de lógica)
-# "E", "W": pycodestyle (erros e avisos de estilo)
-# "I": isort (organização de imports)
-# "B": bugbear (encontra prováveis bugs e más práticas de design)
-# "C90": mccabe (alerta sobre complexidade ciclomática alta)
-select = ["F", "E", "W", "I", "B", "C90"]
+# Ajuda o pylint a encontrar os módulos dentro de 'src'
+source-roots = ["src"]
 
-# Ignora a regra de "linha muito longa", que já é controlada pelo "line-length".
-ignore = ["E501"]
+# Desativa avisos comuns que não se aplicam bem ao FastAPI/Pydantic
+# R0903: too-few-public-methods (chato para Schemas)
+# C0103: invalid-name (permite 'db', 'id', 'q')
+# E0401: import-error (pode acontecer com 'src')
+# W0613: unused-argument (necessário para dependências do FastAPI)
+# R0913: too-many-arguments (chato para rotas FastAPI e fixtures pytest)
+# W0613: redefined-outer-name (para as fixtures do Pytest)
+# R0917: too-many-positional-arguments (também para fixtures/rotas)
+# E1102: Corrige os falsos positivos E1102 (func.now e func.count do SQLAlchemy)
+disable = [
+    "R0903",
+    "C0103",
+    "E0401",
+    "W0613",
+    "R0913", 
+    "W0621",
+    "R0917",
+    "E1102"
+]
+

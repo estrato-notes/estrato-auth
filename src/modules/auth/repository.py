@@ -1,3 +1,5 @@
+"""Repository do módulo de autenticação"""
+
 import uuid
 
 from sqlalchemy.orm import Session
@@ -9,6 +11,8 @@ from .schemas import UserCreate, UserUpdate
 
 
 class UserRepository:
+    """Agrupa os métodos que conversam diretamente com o banco"""
+
     @staticmethod
     def create_user(db: Session, user_data: UserCreate) -> User:
         """Cria e adiciona um novo usuário no banco"""

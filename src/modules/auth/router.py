@@ -1,3 +1,5 @@
+"""Router do módulo de autenticação"""
+
 import uuid
 from typing import Annotated
 

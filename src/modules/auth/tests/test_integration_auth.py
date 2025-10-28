@@ -1,3 +1,5 @@
+"""Agrupa os testes de integração dos endpoints de autenticação"""
+
 import pytest
 from fastapi.testclient import TestClient
 

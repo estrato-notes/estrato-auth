@@ -1,3 +1,5 @@
+"""Service do módulo de autenticação"""
+
 import uuid
 
 from fastapi import HTTPException, status
@@ -13,6 +15,8 @@ from .schemas import Token, UserCreate, UserLogin, UserUpdate
 
 
 class AuthService:
+    """Agrupa os métodos relacionados ao service de autenticação"""
+
     @staticmethod
     def register_user(db: Session, user_data: UserCreate) -> Token:
         """Realiza o cadastro de um novo usuário"""

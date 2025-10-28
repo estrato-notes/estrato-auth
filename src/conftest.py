@@ -1,3 +1,5 @@
+"""Arquivo de configuração global dos testes"""
+
 import alembic.command
 import alembic.config
 import pytest

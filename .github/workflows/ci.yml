@@ -32,9 +32,9 @@ jobs:
                 python -m pip install --upgrade pip
                 pip install -r requirements.txt
             
-            - name: Lint with Ruff
+            - name: Lint with Pylint
               run: |
-                ruff check .
+                pylint src
             
             - name: Run tests with docker compose
               run: docker compose -f docker-compose.yml run --rm tests

@@ -1,7 +1,11 @@
+"""Arquivo de configuração global da aplicação"""
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    """Classe que carrega todas as variáveis de ambiente definidas"""
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     POSTGRES_USER: str
@@ -16,6 +20,8 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL(self) -> str:
+        """Retorna a URL do banco de dados"""
+
         user = self.POSTGRES_USER
         password = self.POSTGRES_PASSWORD
         server = self.POSTGRES_SERVER

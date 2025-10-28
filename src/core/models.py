@@ -1,3 +1,5 @@
+"""Arquivo que contém a definição de todas as tabelas da aplicação"""
+
 import uuid
 
 from sqlalchemy import Column, DateTime, String, func
@@ -7,6 +9,8 @@ from .database import Base
 
 
 class User(Base):
+    """Tabela para Usuários"""
+
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

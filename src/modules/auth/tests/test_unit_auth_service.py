@@ -1,3 +1,5 @@
+"""Agrupa os testes unitários do service de autenticação"""
+
 import uuid
 from unittest.mock import MagicMock, patch
 
