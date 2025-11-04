@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
+    CLIENT_ORIGIN_URL: str
+
     @property
     def DATABASE_URL(self) -> str:
         """Retorna a URL do banco de dados"""
